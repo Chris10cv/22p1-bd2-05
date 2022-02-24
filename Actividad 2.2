@@ -1,10 +1,10 @@
 /*
 
 */
-drop procedure IF EXISTS bd_sample.SP_CREAR_SUBSCRIPTOR;
+drop procedure IF EXISTS bd_sample.sp_guardar_subscritor;
 
 DELIMITER $$ 
-create procedure bd_sample.SP_CREAR_SUBSCRIPTOR (
+create procedure bd_sample.sp_guardar_subscritor (
 	in p_id_subscritor     int,
     in p_codigo_subscritor int,
     in p_nombres varchar (25),
