@@ -6,20 +6,20 @@ drop procedure IF EXISTS bd_sample.sp_guardar_subscritor;
 DELIMITER //
 create procedure bd_sample.sp_guardar_subscritor (
 	in p_id_subscritor     			int,
-    in p_codigo_subscritor 			int,
-    in p_nombres					varchar (25),
-    in p_apellidos 					varchar (25)
+    	in p_codigo_subscritor 			int,
+    	in p_nombres				varchar (25),
+    	in p_apellidos 				varchar (25)
 )
 BEGIN 
 	declare  v_id_subscriptor 		int;
-	declare  v_codigo_subscriptor 	int;
-	declare  v_nombres 				varchar (25);
+	declare  v_codigo_subscriptor 		int;
+	declare  v_nombres 			varchar (25);
 	declare  v_apellidos 			varchar (25);
     
-    set v_id_subscriptor			= p_id_subscritor;
-    set v_codigo_subscriptor		= p_codigo_subscritor;
-    set v_nombres					= p_nombres;
-    set v_apellidos					= p_apellidos;
+    	set v_id_subscriptor			= p_id_subscritor;
+    	set v_codigo_subscriptor		= p_codigo_subscritor;
+    	set v_nombres				= p_nombres;
+    	set v_apellidos				= p_apellidos;
 
 	insert into bd_sample.tbl_subscriptores (
 	id_subscriptor, codigo_subscriptor, nombres, apellidos
@@ -45,31 +45,31 @@ drop procedure IF EXISTS bd_sample.sp_guardar_factura;
 
 DELIMITER //
 create procedure bd_sample.sp_guardar_factura (
-	in p_id_factura 		int,
-    in p_fecha_emision		datetime,
-    in p_id_subscriptor		int,
-    in p_numero_items		int,
+    in p_id_factura 			int,
+    in p_fecha_emision			datetime,
+    in p_id_subscriptor			int,
+    in p_numero_items			int,
     in p_isv_total			decimal(12,2),
     in p_subtotal			decimal(12,2)
 )
 
 BEGIN
 
-	declare v_id_factura 		int;
+    declare v_id_factura 		int;
     declare v_fecha_emision		datetime;
-    declare v_id_subscriptor	int;
+    declare v_id_subscriptor		int;
     declare v_numero_items		int;
     declare v_isv_total			decimal(12,2);
     declare v_subtotal			decimal(12,2);
     declare v_totapagar			decimal(12,2);
 
-	set v_id_factura 		=  	p_id_factura; 
+    set v_id_factura 		=  	p_id_factura; 
     set v_fecha_emision		=	p_fecha_emision;
     set v_id_subscriptor	=	p_id_subscriptor;
     set v_numero_items		=	p_numero_items;
-    set v_isv_total			=	p_isv_total;
-    set v_subtotal			=	p_subtotal;
-    set v_totapagar			=	p_totapagar;
+    set v_isv_total		=	p_isv_total;
+    set v_subtotal		=	p_subtotal;
+    set v_totapagar		=	p_totapagar;
     
 	insert into bd_sample.tbl_facturas ( 
     id_factura, fecha_emision, id_subscriptor, numero_items,
