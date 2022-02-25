@@ -1,0 +1,11 @@
+Utilizando la base de datos bd_sample compartida para esta clase, realice lo siguiente: 
+
+Cree el procedimiento almacenado "sp_guardar_subscriptor" para actualizar los campos de un subscriptor existente en la base de datos. 
+
+Cree el procedimiento almacenado "sp_guardar_producto" para crear nuevos productos, debe recibir los parámetros el nombre, la descripción y el precio de costo del producto. El precio de venta debe ser calculado en razón de un 125% del precio de costo. 
+
+Cree el procedimiento almacenado "sp_guardar_factura" que registre una nueva factura según los parámetros recibidos. 
+
+Cree el procedimiento almacenado "sp_procesar_factura " que registre el proceso de facturación: 
+Registra un producto de acuerdo un numero de factura en la tabla ítems factura.
+Actualiza los valores de la factura con los valores totales
