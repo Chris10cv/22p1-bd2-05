@@ -30,6 +30,13 @@ BEGIN
 	commit;
 END;
 
+CALL bd_sample.sp_guardar_subscritor ( 
+	0, 				# p_id_subscritor
+     	null, 				# p_codigo_subscritor 
+    	'',				# p_nombres 
+    	''				# p_apellidos
+);
+
 --------------------------------------------------------------------------------
 
 
