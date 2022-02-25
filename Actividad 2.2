@@ -44,31 +44,25 @@ select * from bd_sample.tbl_productos;
 DELIMITER $$ 
 create procedure bd_sample.sp_guardar_producto (
     in p_id_producto     	int,
-    in p_nombre 			varchar (25),
+    in p_nombre 		varchar (25),
     in p_descripcion 		varchar (25),
     in p_precio_costo 		decimal (12,2),
     in p_precio_venta 		decimal (12,2)
     
-    
 )
 BEGIN 
 
-	declare  v_id_producto 	int;
+	declare  v_id_producto 		int;
 	declare  v_nombre		varchar (25);
-	declare  v_descripcion 	varchar (25);
-	declare  v_precio_costo decimal (12,2);
-    declare  v_precio_venta decimal (12,2);
+	declare  v_descripcion 		varchar (25);
+	declare  v_precio_costo 	decimal (12,2);
+   	declare  v_precio_venta 	decimal (12,2);
     
-    set v_id_producto       = p_id_producto;
-	set v_nombre			= P_nombre;
+    set v_id_producto       	= p_id_producto;
+    set v_nombre		= P_nombre;
     set  v_descripcion		= p_descripcion;
     set  v_precio_costo		= p_precio_costo;    
-    set v_precio_venta      =p_precio_venta;
-    
-   
-    
-    
-    
+    set v_precio_venta 		= p_precio_venta * 1.25;
     
 	insert into bd_sample.tbl_productos (
 	id_producto, nombre, descripcion, precio_costo, precio_venta
@@ -83,19 +77,12 @@ END;
 select * from bd_sample.tbl_productos
 
 CALL bd_sample.sp_guardar_producto (
-0,		 			# p_id_producto
-'Plan Diamond',		# p_nombre 
-'Plan VIP', 		# p_descripcion 	
-20					# p_precio_costo
+0,		 		# p_id_producto
+'Plan Diamond',			# p_nombre 
+'Plan VIP', 			# p_descripcion 	
+20,				# p_precio_costo
+20 				# p_precio_venta
 );
-
- select count(*) into @v_precio_costo
-    from bd_sample.sp_guardar_producto
-    where precio_venta = @v_precio_venta;
-    
-    update bd_sample.sp_guardar_producto
-    set v_precio_venta = @v_precio_costo * 1.25
-    where  precio_venta = @v_precio_venta;
 
 
 
