@@ -22,67 +22,7 @@ BEGIN
     	set v_apellidos				= p_apellidos;
 
 
-/*
-Procedimiento 2
-*/
 
-drop procedure IF EXISTS bd_sample.sp_guardar_producto;
-
-DELIMITER $$ 
-create procedure bd_sample.sp_guardar_producto (
-    in p_id_producto     	int,
-    in p_nombre 		varchar (25),
-    in p_descripcion 		varchar (25),
-    in p_precio_costo 		decimal (12,2),
-    in p_precio_venta 		decimal (12,2),
-    in p_porcentaje			varchar (25)
-)
-BEGIN 
-
-	declare  v_id_producto 		int;
-	declare  v_nombre		varchar (25);
-	declare  v_descripcion 		varchar (25);
-	declare  v_precio_costo 	decimal (12,2);
-   	declare  v_precio_venta 	decimal (12,2);
-    declare  v_porcentaje		varchar (25);
-    
-    
-    set v_id_producto       = p_id_producto;
-    set v_nombre			= p_nombre;
-    set  v_descripcion		= p_descripcion;
-    set  v_precio_costo		= p_precio_costo;    
-    set v_precio_venta 		= v_precio_costo * 1.25;
-    set v_porcentaje		= p_porcentaje;
-    
-    select precio_venta into v_precio_venta
-    from bd_sample.tbl_productos
-    where precio_venta = v_precio_venta ;
-    
-    
-   case 
-		when v_precio_venta between  0 and  3.99  	then set v_porcentaje = 	p_porcentaje * 0.30 ;
-		when v_precio_venta between  4 and  7.99  then 	set v_porcentaje =	p_porcentaje * 0.50 ;
-		when v_precio_venta >= 8 then				set v_porcentaje = 	p_porcentaje * 0.60 ;
-		else set v_porcentaje = 'otro ' ;
-    end case;
-    
-    if v_id_producto is null then 
-	insert into bd_sample.tbl_productos (
-	id_producto, nombre, descripcion, precio_costo, precio_venta, porcentaje
-	) values (
-	v_id_producto, v_nombre, v_descripcion, v_precio_costo, v_precio_venta, v_porcentaje
-	);
-    
-    else 
-    
-			update bd_sample.tbl_productos_hist set 
-					 nombre = v_nombre, 
-                    descripcion = v_descripcion
-                    where id_producto = v_id_producto;
-        
-end if ;
-	commit;
-END;
 ----------------------------------------------------------------------------
 
 /*
