@@ -83,3 +83,57 @@ BEGIN
 end if ;
 	commit;
 END;
+----------------------------------------------------------------------------
+
+/*
+3.- PROCEDIMIENTO 
+*/
+drop procedure IF EXISTS bd_sample.sp_guardar_factura;
+
+DELIMITER //
+create procedure bd_sample.sp_guardar_factura (
+    in p_id_factura 			int,
+    in p_fecha_emision			datetime,
+    in p_id_subscriptor			int,
+    in p_numero_items			int,
+    in p_isv_total			decimal(12,2),
+    in p_subtotal			decimal(12,2)
+)
+
+BEGIN
+
+    declare v_id_factura 		int;
+    declare v_fecha_emision		datetime;
+    declare v_id_subscriptor		int;
+    declare v_numero_items		int;
+    declare v_isv_total			decimal(12,2);
+    declare v_subtotal			decimal(12,2);
+    declare v_totapagar			decimal(12,2);
+
+    set v_id_factura 		=  	p_id_factura; 
+    set v_fecha_emision		=	p_fecha_emision;
+    set v_id_subscriptor	=	p_id_subscriptor;
+    set v_numero_items		=	p_numero_items;
+    set v_isv_total		=	p_isv_total;
+    set v_subtotal		=	p_subtotal;
+    set v_totapagar		=	p_totapagar;
+    
+    
+if v_id_factura is null then 
+	insert into bd_sample.tbl_facturas ( 
+    id_factura, fecha_emision, id_subscriptor, numero_items,
+    isv_total, subtotal, totapagar
+    )values( 
+    v_id_factura, v_fecha_emision, v_id_subscriptor, v_numero_items,
+    v_isv_total, v_subtotal, v_totapagar
+    );
+else 
+			update bd_sample.tbl_facturas set 
+					 fecha_emision = v_fecha_emision, 
+                  id_subscriptor = v_id_subscriptor
+                  
+where id_factura = v_id_factura;
+        
+end if ;
+COMMIT;
+END;
