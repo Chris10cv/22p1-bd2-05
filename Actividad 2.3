@@ -21,36 +21,7 @@ BEGIN
     	set v_nombres				= p_nombres;
     	set v_apellidos				= p_apellidos;
 
-	IF v_codigo_subscriptor is null then
-			insert into bd_sample.tbl_subscriptores (
-				id_subscriptor, codigo_subscriptor, nombres, apellidos
-			) values (
-				v_id_subscriptor, v_codigo_subscriptor, v_nombres, v_apellidos 
-			);
-	else 
-			update bd_sample.tbl_subscriptores 
-            set nombres 		= v_nombres
-						apellidos 		= v_apellidos
-            where codigo_subscriptor = v_codigo_subscriptor;    
-		end if;
 
-	commit;
-END;
-
-CALL bd_sample.sp_guardar_subscriptor( 
-	0, 				# p_id_subscriptor
-     	202211119, 				# p_codigo_subscriptor 
-    	'ANDRES LUJAN',				# p_nombres 
-    	'INIESTA'				# p_apellidos
-);
-
-select * 
-from bd_sample.tbl_subscriptores
-where codigo_subscriptor = 202211119 ;
-
-
-
------------------------------------------------------------------------------------
 /*
 Procedimiento 2
 */
@@ -80,7 +51,7 @@ BEGIN
     set v_nombre			= p_nombre;
     set  v_descripcion		= p_descripcion;
     set  v_precio_costo		= p_precio_costo;    
-    set v_precio_venta 		= p_precio_venta * 1.25;
+    set v_precio_venta 		= v_precio_costo * 1.25;
     set v_porcentaje		= p_porcentaje;
     
     select precio_venta into v_precio_venta
@@ -95,26 +66,20 @@ BEGIN
 		else set v_porcentaje = 'otro ' ;
     end case;
     
-    
+    if v_id_producto is null then 
 	insert into bd_sample.tbl_productos (
 	id_producto, nombre, descripcion, precio_costo, precio_venta, porcentaje
 	) values (
 	v_id_producto, v_nombre, v_descripcion, v_precio_costo, v_precio_venta, v_porcentaje
 	);
-
+    
+    else 
+    
+			update bd_sample.tbl_productos_hist set 
+					 nombre = v_nombre, 
+                    descripcion = v_descripcion
+                    where id_producto = v_id_producto;
+        
+end if ;
 	commit;
 END;
-
-
-select * from bd_sample.tbl_productos
-
-CALL bd_sample.sp_guardar_producto (
-0,		 		# p_id_producto
-'Plan Diamond',			# p_nombre 
-'Plan VIP', 			# p_descripcion 	
-20,				# p_precio_costo
-20, 				# p_precio_venta
-					#p_porcentaje
-);
-
- 
