@@ -137,3 +137,75 @@ where id_factura = v_id_factura;
 end if ;
 COMMIT;
 END;
+-----------------------------------------------------------------------------
+/*
+Procedimiento 4
+*/
+drop procedure IF EXISTS bd_sample.sp_procesar_factura ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE bd_sample.sp_procesar_factura(
+	in p_id_factura      	int,  
+	in p_id_producto        int,
+    in p_cantidad           int       
+) 
+
+BEGIN
+
+
+	declare v_id_factura      	int;  
+	declare v_id_producto       int;
+	declare v_cantidad 	        int;
+    declare v_items 	        int;
+	declare v_isv_producto      decimal(12,2) default 0;
+	declare v_total_producto    decimal(12,2) default 0;
+	declare v_subtotal_prod     decimal(12,2) default 0;
+	declare v_precio_venta      decimal(12,2) default 0;
+    
+
+
+	set v_id_factura 		= p_id_factura;  
+	set v_id_producto       = p_id_producto;
+	set v_cantidad 	        = p_cantidad;
+    
+ 
+ 
+	select precio_venta into v_precio_venta  
+	from bd_sample.tbl_productos 
+	where id_producto = v_id_producto; 
+    
+  if v_id_factura is null then       
+        select  
+		sum( a.cantidad ) items, 
+		sum( a.cantidad * b.precio_venta ) subtotal,
+        sum( a.cantidad * b.precio_venta ) * 0.15 isv, 
+		sum( a.cantidad * b.precio_venta ) * 1.15 total 
+	into 
+		v_items, 
+        v_subtotal_prod, 
+        v_isv_producto, 
+        v_total_producto
+	from bd_sample.tbl_items_factura a 
+	left join bd_sample.tbl_productos b 
+	on a.id_producto = b.id_producto 
+	where a.id_factura = v_id_factura ;
+    
+    else 
+    # Actualizar factura 
+	update  bd_sample.tbl_facturas Set 
+		numero_items 	= 	v_items,
+		fecha_emision 	=	now(),
+		isv_total   	=  	v_isv_producto,
+		subtotal    	=   v_subtotal_prod,
+		totapagar		=   v_total_producto
+	where id_factura = v_id_factura; 
+end if;
+    
+   
+    
+	commit;
+END;
+    
+    
