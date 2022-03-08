@@ -31,14 +31,15 @@ while i < p_final do
 		set i = i+1;
         
         set p_inicial = v_numero_random;
-		set p_final = concat(p_inicial, ',',(id_factura , fecha_emision , id_subscriptor) , (id_factura , fecha_emision , id_subscriptor));
         
 select  id_factura , fecha_emision , id_subscriptor  
         into  
         v_id_factura , v_fecha_emision , v_id_subscriptor
 		from bd_sample.tbl_subscriptores where id_subscriptor = i; 
         
-        
+    insert into tbl_tickets_promo (idfactura,numero_random,fecha_creacion)  
+select distinct id_factura,ceil(rand()*(10000-0)+1000), now() 
+from tbl_facturas_selectas where orden=30;    
 	
 
         
@@ -47,5 +48,3 @@ select  id_factura , fecha_emision , id_subscriptor
 
 commit;
 end;
-
-call bd_sample.SP_CREAR_CADENA ( 2 );
