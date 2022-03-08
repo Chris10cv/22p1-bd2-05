@@ -1,0 +1,47 @@
+DROP procedure IF EXISTS bd_sample.SP_CREAR_CADENA; 
+
+
+delimiter //
+CREATE procedure bd_sample.SP_CREAR_CADENA (
+in p_inicial int ,
+in p_final int
+)
+
+begin 
+
+declare i int default 0;
+declare v_id_factura int;
+declare v_fecha_emision varchar(20);
+declare v_id_subscriptor int;
+declare v_numero_random varchar (20);
+declare tickets varchar(2000);
+
+select p_final;
+
+set numero_random = ceil( RAND()*(10000-0)+10000 );
+set fecha_emision = fecha_creacion ;
+        
+set p_inicial = " ";
+
+while i < p_final do 
+		set i = i+1;
+        
+        set p_final = numero_random;
+			
+select
+	*
+from bd_sample.tbl_facturas_selectas 
+join bd_sample.tbl_tickets_promo 
+on id_factura = idfactura
+where idproducto is null 
+ ;
+	
+set p_final = concat(p_inicial ',',(id_factura , fecha_emision , id_subscriptor) , (id_factura , fecha_emision , id_subscriptor));
+        
+    end while;
+    select p_inicial ;
+
+commit;
+end;
+
+call bd_sample.SP_CREAR_CADENA ( 2 );
