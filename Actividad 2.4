@@ -35,7 +35,7 @@ while i < p_final do
 select  id_factura , fecha_emision , id_subscriptor  
         into  
         v_id_factura , v_fecha_emision , v_id_subscriptor
-		from bd_sample.tbl_subscriptores where id_subscriptor = i; 
+		from bd_sample.tbl_facturas_selectas where id_factura = i; 
         
     insert into tbl_tickets_promo (idfactura,numero_random,fecha_creacion)  
 select distinct id_factura,ceil(rand()*(10000-0)+1000), now() 
